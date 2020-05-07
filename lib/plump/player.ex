@@ -1,3 +1,7 @@
 defmodule Plump.Player do
-  defstruct [id: 1, :name]
+  defstruct name: nil
+
+  def new(fields) do
+    struct!(__MODULE__, fields)
+  end
 end
