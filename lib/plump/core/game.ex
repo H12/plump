@@ -1,5 +1,5 @@
-defmodule Plump.Game do
-  alias Plump.Player
+defmodule Plump.Core.Game do
+  alias Plump.Core.Player
 
   defstruct status: :waiting,
             all_players: nil,
@@ -35,20 +35,20 @@ defmodule Plump.Game do
     game.all_players[next_player_id(game)]
   end
 
-  def next_player_id(game) do
-    if game.current_player_id + 1 < player_count(game) do
-      game.current_player_id + 1
-    else
-      0
-    end
-  end
-
   def increment_current_player(game) do
     put_in(game.current_player_id, next_player_id(game))
   end
 
   def player_count(game) do
     map_size(game.all_players)
+  end
+
+  defp next_player_id(game) do
+    if game.current_player_id + 1 < player_count(game) do
+      game.current_player_id + 1
+    else
+      0
+    end
   end
 
   defp generate_code(length) do

@@ -1,4 +1,4 @@
-defmodule Plump.Player do
+defmodule Plump.Core.Player do
   defstruct name: nil
 
   def new(fields) do
