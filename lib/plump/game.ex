@@ -24,7 +24,7 @@ defmodule Plump.Game do
 
   def add_player(game, player_name) do
     new_player = Player.new(name: player_name)
-    put_in(game.all_players[map_size(game.all_players)], new_player)
+    put_in(game.all_players[player_count(game)], new_player)
   end
 
   def current_player(game) do
@@ -36,15 +36,19 @@ defmodule Plump.Game do
   end
 
   def next_player_id(game) do
-    if game.current_player_id + 1 < map_size(game.all_players) do
+    if game.current_player_id + 1 < player_count(game) do
       game.current_player_id + 1
     else
       0
     end
   end
 
-  def advance_current_player(game) do
+  def increment_current_player(game) do
     put_in(game.current_player_id, next_player_id(game))
+  end
+
+  def player_count(game) do
+    map_size(game.all_players)
   end
 
   defp generate_code(length) do
