@@ -7,6 +7,8 @@ defmodule Plump.Application do
 
   def start(_type, _args) do
     children = [
+      # Start the Plump GameManager
+      {Plump.Boundary.GameManager, [name: Plump.Boundary.GameManager]},
       # Start the Telemetry supervisor
       PlumpWeb.Telemetry,
       # Start the PubSub system
