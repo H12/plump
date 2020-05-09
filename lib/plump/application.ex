@@ -7,16 +7,17 @@ defmodule Plump.Application do
 
   def start(_type, _args) do
     children = [
-      # Start the Plump GameManager
-      {Plump.Boundary.GameManager, [name: Plump.Boundary.GameManager]},
       # Start the Telemetry supervisor
       PlumpWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Plump.PubSub},
       # Start the Endpoint (http/https)
-      PlumpWeb.Endpoint
-      # Start a worker by calling: Plump.Worker.start_link(arg)
-      # {Plump.Worker, arg}
+      PlumpWeb.Endpoint,
+
+      # Custom applications for handling starting/stopping/advancing games
+      {Plump.Boundary.GameManager, [name: Plump.Boundary.GameManager]},
+      {Registry, [name: Plump.Registry.GameSession, keys: :unique]},
+      {DynamicSupervisor, [name: Plump.Supervisor.GameSession, strategy: :one_for_one]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
