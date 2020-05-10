@@ -14,7 +14,7 @@ defmodule Plump.Core.Game do
       all_players: %{0 => creator},
       creator: creator,
       current_player_id: 0,
-      secret_code: generate_code(5)
+      secret_code: generate_code(4)
     }
   end
 
@@ -51,10 +51,11 @@ defmodule Plump.Core.Game do
     end
   end
 
-  defp generate_code(length) do
-    length
+  defp generate_code(code_length) do
+    code_length
     |> :crypto.strong_rand_bytes()
     |> Base.encode64()
-    |> binary_part(0, length)
+    |> binary_part(0, code_length)
+    |> String.upcase()
   end
 end
