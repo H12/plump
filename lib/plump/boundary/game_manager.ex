@@ -13,11 +13,15 @@ defmodule Plump.Boundary.GameManager do
     game = Game.new(creator_name)
     new_games = Map.put(games, game.secret_code, game)
 
-    {:reply, :ok, new_games}
+    {:reply, game, new_games}
   end
 
   def handle_call({:lookup_game_by_code, code}, _from, games) do
     {:reply, games[code], games}
+  end
+
+  def handle_call({:list_games}, _from, games) do
+    {:reply, games, games}
   end
 
   def handle_call({:add_player, code, player_name}, _from, games) do
@@ -40,6 +44,10 @@ defmodule Plump.Boundary.GameManager do
 
   def lookup_game_by_code(manager \\ __MODULE__, code) do
     GenServer.call(manager, {:lookup_game_by_code, code})
+  end
+
+  def list_games(manager \\ __MODULE__) do
+    GenServer.call(manager, {:list_games})
   end
 
   def add_player(manager \\ __MODULE__, code, player_name) do
