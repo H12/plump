@@ -11,6 +11,8 @@ defmodule Plump.Boundary.GameManager do
 
   def handle_call({:build_game, creator_name}, _from, games) do
     game = Game.new(creator_name)
+
+    # TODO: Add check to see if game already exists for a given code
     new_games = Map.put(games, game.secret_code, game)
 
     {:reply, game, new_games}
