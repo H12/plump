@@ -21,11 +21,11 @@ defmodule Plump.Boundary.GameSession do
     )
   end
 
-  def via({_creator_name, _secret_code} = name) do
+  def via({_creator_name, _secret_code} = registry_name) do
     {
       :via,
       Registry,
-      {Plump.Registry.GameSession, name}
+      {Plump.Registry.GameSession, registry_name}
     }
   end
 
@@ -38,6 +38,19 @@ defmodule Plump.Boundary.GameSession do
 
   def handle_call(:current_player, _from, game) do
     {:reply, Game.current_player(game), game}
+  end
+
+  def handle_call(:take_turn, _from, game) do
+    new_game = Game.increment_current_player(game)
+    {:reply, new_game, new_game}
+  end
+
+  def current_player(registry_name) do
+    GenServer.call(via(registry_name), :current_player)
+  end
+
+  def take_turn(registry_name) do
+    GenServer.call(via(registry_name), :take_turn)
   end
 
   def active_sessions do
