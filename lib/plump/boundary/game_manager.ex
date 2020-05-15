@@ -2,13 +2,17 @@ defmodule Plump.Boundary.GameManager do
   alias Plump.Core.Game
   use GenServer
 
+  @impl GenServer
   def init(games) when is_map(games), do: {:ok, games}
+
+  @impl GenServer
   def init(_games), do: {:error, "games must be a Map"}
 
   def start_link(options \\ []) do
     GenServer.start_link(__MODULE__, %{}, options)
   end
 
+  @impl GenServer
   def handle_call({:build_game, creator_name}, _from, games) do
     game = Game.new(creator_name)
 
@@ -18,14 +22,17 @@ defmodule Plump.Boundary.GameManager do
     {:reply, game, new_games}
   end
 
+  @impl GenServer
   def handle_call({:lookup_game_by_code, code}, _from, games) do
     {:reply, games[code], games}
   end
 
+  @impl GenServer
   def handle_call({:list_games}, _from, games) do
     {:reply, games, games}
   end
 
+  @impl GenServer
   def handle_call({:add_player, code, player_name}, _from, games) do
     new_games =
       Map.update!(games, code, fn game ->
@@ -35,6 +42,7 @@ defmodule Plump.Boundary.GameManager do
     {:reply, :ok, new_games}
   end
 
+  @impl GenServer
   def handle_call({:remove_game, code}, _from, games) do
     new_games = Map.delete(games, code)
     {:reply, :ok, new_games}

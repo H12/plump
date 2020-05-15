@@ -9,6 +9,7 @@ defmodule Plump.Boundary.GameSession do
     }
   end
 
+  @impl GenServer
   def init(game) do
     {:ok, game}
   end
@@ -36,10 +37,12 @@ defmodule Plump.Boundary.GameSession do
     )
   end
 
+  @impl GenServer
   def handle_call(:current_player, _from, game) do
     {:reply, Game.current_player(game), game}
   end
 
+  @impl GenServer
   def handle_call(:take_turn, _from, game) do
     new_game = Game.increment_current_player(game)
     {:reply, new_game, new_game}
