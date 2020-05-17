@@ -8,6 +8,12 @@ defmodule Plump do
   @doc """
   Given a String representing the name of a game's creator, will build a game struct and use the
   provided name to populate the `creator` field with a corresponding Player struct.
+
+  ## Examples
+
+      iex> %Plump.Core.Game{creator: creator} = Plump.build_game("Hank")
+      iex> creator == %Plump.Core.Player{name: "Hank"}
+      true
   """
   def build_game(creator_name) do
     GameManager.build_game(creator_name)
