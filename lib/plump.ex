@@ -5,6 +5,12 @@ defmodule Plump do
   alias Plump.Boundary.{GameManager, GameSession}
   alias Plump.Core.Game
 
+  @topic inspect(__MODULE__)
+
+  def subscribe() do
+    Phoenix.PubSub.subscribe(Plump.PubSub, @topic)
+  end
+
   @doc """
   Given a String representing the name of a game's creator, will build a game struct and use the
   provided name to populate the `creator` field with a corresponding Player struct.
@@ -17,6 +23,7 @@ defmodule Plump do
   """
   def build_game(creator_name) do
     GameManager.build_game(creator_name)
+    |> notify_subscribers([:game, :built])
   end
 
   @doc """
@@ -71,6 +78,17 @@ defmodule Plump do
   def take_turn(registry_name) do
     GameSession.take_turn(registry_name)
   end
+
+  defp notify_subscribers(%Game{secret_code: code}, event) do
+    notify_subscribers({:ok, code}, event)
+  end
+
+  defp notify_subscribers({:ok, result}, event) do
+    Phoenix.PubSub.broadcast(Plump.PubSub, @topic, {__MODULE__, event, result})
+    {:ok, result}
+  end
+
+  defp notify_subscribers({:error, reason}, _event), do: {:error, reason}
 
   defp registry_name_for_game(game) do
     registry_name = {game.creator.name, game.secret_code}
