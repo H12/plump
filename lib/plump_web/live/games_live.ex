@@ -3,18 +3,14 @@ defmodule PlumpWeb.GamesLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: "", games: Plump.list_games())}
+    {:ok, assign(socket, creator: "", games: Plump.list_games())}
   end
 
   @impl true
-  def render(assigns) do
-    ~L"""
-    <h1>Games</h1>
-    <ul>
-      <%= for {_code, game} <- @games do %>
-        <li><%= game.creator.name %></li>
-      <% end %>
-    </ul>
-    """
+  def handle_event("build", %{"creator" => creator}, socket) do
+    Plump.build_game(creator)
+    games = Plump.list_games()
+
+    {:noreply, assign(socket, games: games, creator: "")}
   end
 end

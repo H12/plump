@@ -1,0 +1,25 @@
+<section class="phx-hero">
+  <h1><%= gettext "Start a new %{name} game!", name: "Plump" %></h1>
+
+  <form phx-submit="build">
+    <input type="text" name="creator" value="<%= @creator %>" placeholder="Your Name"/>
+  </form>
+
+  <table>
+    <tr>
+      <th>Code</th>
+      <th>Creator</th>
+      <th>Player Count</th>
+      <th>Status</th>
+    </tr>
+    <%= for {code, game} <- @games do %>
+      <tr>
+        <td><%= code %></td>
+        <td><%= game.creator.name %></td>
+        <td><%= map_size(game.all_players) %></td>
+        <td><%= game.status %></td>
+      </tr>
+    <% end %>
+  </table>
+</section>
+
