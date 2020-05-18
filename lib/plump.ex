@@ -17,7 +17,8 @@ defmodule Plump do
 
   ## Examples
 
-      iex> %Plump.Core.Game{creator: creator} = Plump.build_game("Hank")
+      iex> {:ok, code} = Plump.build_game("Hank")
+      iex> %Plump.Core.Game{creator: creator} = Plump.lookup_game_by_code(code)
       iex> creator == %Plump.Core.Player{name: "Hank"}
       true
   """
@@ -29,6 +30,13 @@ defmodule Plump do
   @doc """
   A function that lists all the games that have been built, regardless of whether they have been
   "started" and have a corresponding GameSession.
+
+  ## Examples
+
+      iex> {:ok, code} = Plump.build_game("Hank")
+      iex> games = Plump.list_games()
+      iex> with %Plump.Core.Game{} <- games[code], do: :game_exists!
+      :game_exists!
   """
   def list_games do
     GameManager.list_games()
@@ -36,6 +44,12 @@ defmodule Plump do
 
   @doc """
   Given a String representing an existing Game's `secret_code`, returns the corresponding Game.
+
+  ## Examples
+
+      iex> {:ok, code} = Plump.build_game("Hank")
+      iex> with %Plump.Core.Game{} <- Plump.lookup_game_by_code(code), do: :game_exists!
+      :game_exists!
   """
   def lookup_game_by_code(code) do
     GameManager.lookup_game_by_code(code)
@@ -44,6 +58,17 @@ defmodule Plump do
   @doc """
   Given a String representing an existing Game's `secret_code`, and another string representing a
   new player, adds a Player struct representing that player to the corresponding Game.
+
+  ## Examples
+
+      iex> {:ok, code} = Plump.build_game("Hank")
+      iex> game = Plump.lookup_game_by_code(code)
+      iex> map_size(game.all_players)
+      1
+      iex> Plump.add_player(code, "Bobby")
+      iex> game = Plump.lookup_game_by_code(code)
+      iex> map_size(game.all_players)
+      2
   """
   def add_player(code, player_name) do
     GameManager.add_player(code, player_name)
