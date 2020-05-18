@@ -72,6 +72,7 @@ defmodule Plump do
   """
   def add_player(code, player_name) do
     GameManager.add_player(code, player_name)
+    |> notify_subscribers([:game, :player_added])
   end
 
   @doc """
@@ -108,9 +109,9 @@ defmodule Plump do
     notify_subscribers({:ok, code}, event)
   end
 
-  defp notify_subscribers({:ok, result}, event) do
-    Phoenix.PubSub.broadcast(Plump.PubSub, @topic, {__MODULE__, event, result})
-    {:ok, result}
+  defp notify_subscribers({:ok, code}, event) do
+    Phoenix.PubSub.broadcast(Plump.PubSub, @topic, {__MODULE__, event, code})
+    {:ok, code}
   end
 
   defp notify_subscribers({:error, reason}, _event), do: {:error, reason}

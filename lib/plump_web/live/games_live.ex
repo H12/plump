@@ -16,11 +16,25 @@ defmodule PlumpWeb.GamesLive do
   end
 
   @impl true
-  def handle_info({Plump, [:game, _event], _result}, socket) do
-    {:noreply, fetch(socket)}
+  def handle_info({Plump, [:game, :built], _code}, socket) do
+    {:noreply, fetch_games(socket)}
   end
 
-  defp fetch(socket) do
+  @impl true
+  def handle_info({Plump, [:game, :player_added], code}, socket) do
+    {:noreply, fetch_game(socket, code)}
+  end
+
+  defp fetch_games(socket) do
     assign(socket, games: Plump.list_games())
+  end
+
+  defp fetch_game(socket, code) do
+    game = Plump.lookup_game_by_code(code)
+
+    # FIXME
+    # This isn't being super smart about updating games -- it's still sending all the games
+    # over the socket, even though only one has changed.
+    assign(socket, games: Map.put(socket.assigns.games, code, game))
   end
 end

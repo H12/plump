@@ -39,7 +39,7 @@ defmodule Plump.Boundary.GameManager do
         Game.add_player(game, player_name)
       end)
 
-    {:reply, :ok, new_games}
+    {:reply, {:ok, code}, new_games}
   end
 
   @impl GenServer
