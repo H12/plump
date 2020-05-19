@@ -1,0 +1,9 @@
+<section>
+  <h1><%= gettext "Join a %{name} game!", name: "Plump" %></h1>
+
+  <form phx-submit="join">
+    <input type="text" name="code" value="<%= @code %>" placeholder="A game code"/>
+    <input type="text" name="player" value="<%= @player %>" placeholder="Your name"/>
+    <input type="submit" value="Join">
+  </form>
+</section>

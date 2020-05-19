@@ -17,7 +17,10 @@ defmodule PlumpWeb.Router do
   scope "/", PlumpWeb do
     pipe_through :browser
 
-    live "/", GamesLive, :index
+    live "/", PlumpLive
+    live "/create", CreateLive
+    live "/join", JoinLive
+    live "/games", GamesLive
   end
 
   # Other scopes may use custom stacks.
