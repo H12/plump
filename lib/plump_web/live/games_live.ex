@@ -8,12 +8,6 @@ defmodule PlumpWeb.GamesLive do
   end
 
   @impl true
-  def handle_event("build", %{"creator" => creator}, socket) do
-    Plump.build_game(creator)
-    {:noreply, assign(socket, games: fetch_games(socket), creator: "")}
-  end
-
-  @impl true
   def handle_info({Plump, [:game, :built], _code}, socket) do
     {:noreply, fetch_games(socket)}
   end
