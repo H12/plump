@@ -10,9 +10,7 @@ defmodule PlumpWeb.GamesLive do
   @impl true
   def handle_event("build", %{"creator" => creator}, socket) do
     Plump.build_game(creator)
-    games = Plump.list_games()
-
-    {:noreply, assign(socket, games: games, creator: "")}
+    {:noreply, assign(socket, games: fetch_games(socket), creator: "")}
   end
 
   @impl true
@@ -25,16 +23,12 @@ defmodule PlumpWeb.GamesLive do
     {:noreply, fetch_game(socket, code)}
   end
 
-  defp fetch_games(socket) do
+  defp fetch_games(socket, _code \\ nil) do
     assign(socket, games: Plump.list_games())
   end
 
   defp fetch_game(socket, code) do
     game = Plump.lookup_game_by_code(code)
-
-    # FIXME
-    # This isn't being super smart about updating games -- it's still sending all the games
-    # over the socket, even though only one has changed.
-    assign(socket, games: Map.put(socket.assigns.games, code, game))
+    update(socket, :games, fn games -> Map.put(games, code, game) end)
   end
 end
