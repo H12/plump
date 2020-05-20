@@ -16,8 +16,11 @@
           <ul>
             <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
             <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
+              <li><%= link "Live Dashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
             <% end %>
+            <li><%= link "Create", to: "/create" %></li>
+            <li><%= link "Join", to: "/join" %></li>
+            <li><%= link "View", to: "/games" %></li>
           </ul>
         </nav>
         <a href="https://phoenixframework.org/" class="phx-logo">
