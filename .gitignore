@@ -33,6 +33,9 @@ npm-debug.log
 # this depending on your deployment strategy.
 /priv/static/
 
-#Editor config stuff
+# Editor config stuff
 .elixir_ls/
 .vscode/
+
+# Silly MacOS files
+.DS_Store
