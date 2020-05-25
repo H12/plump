@@ -10,3 +10,10 @@ start:
 
 stop:
 	docker-compose down
+
+tests:
+	MIX_ENV=test mix coveralls
+
+coverage:
+	MIX_ENV=test mix coveralls.html &&\
+	open cover/excoveralls.html

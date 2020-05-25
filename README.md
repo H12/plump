@@ -39,6 +39,13 @@ Choose your preferred method of installation. This project's creator likes [`asd
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+## Tests
+
+This project uses [ExCoveralls](https://github.com/parroty/excoveralls) for tracking test coverage. You can leverage the associated commands directly, but the Makefile has some useful abstractions:
+
+- Run the tests and simple coverage output with `make tests`
+- Generate Coveralls HTML and open in-browser with `make coverage`
+
 ## Learn more
 
 - Official website: https://www.phoenixframework.org/
