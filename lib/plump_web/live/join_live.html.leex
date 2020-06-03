@@ -1,9 +1,28 @@
-<section>
-  <h1><%= gettext "Join a %{name} game!", name: "Plump" %></h1>
+<%= if @game do %>
+  <section class="phx-hero">
+    <h1>Welcome to the game!</h1>
+    <table>
+        <%= for { id, player } <- @game.all_players do %>
+          <tr>
+            <td><%= player.name %></td>
+            <%= if id == @game.current_player_id do %>
+              <td>Just gooooo</td>
+            <% else %>
+              <td>Waiting on <%= @game.all_players[@game.current_player_id].name %></td>
+            <% end %>
+          </tr>
+        <% end %>
+    </table>
+  </section>
+<% else %>
+  <section>
+    <h1><%= gettext "Join a %{name} game!", name: "Plump" %></h1>
 
-  <form phx-submit="join">
-    <input type="text" name="code" value="<%= @code %>" placeholder="A game code"/>
-    <input type="text" name="player" value="<%= @player %>" placeholder="Your name"/>
-    <input type="submit" value="Join">
-  </form>
-</section>
+    <form phx-submit="join">
+      <input type="text" name="code" value="" placeholder="A game code"/>
+      <input type="text" name="player" value="" placeholder="Your name"/>
+      <input type="submit" value="Join">
+    </form>
+  </section>
+<% end %>
+
