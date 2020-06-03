@@ -7,7 +7,7 @@ defmodule PlumpWeb.PlumpLive do
       <h1><%= gettext "Start a new %{name} game, or join an existing one?", name: "Plump" %></h1>
       <ul>
         <li><%= link "Create", to: "/create" %></li>
-        <li><%= link "Join", to: "/join" %></li>
+        <li><%= link "Join", to: "/game" %></li>
       </ul>
     </section>
     """

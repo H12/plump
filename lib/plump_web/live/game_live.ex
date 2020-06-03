@@ -1,4 +1,4 @@
-defmodule PlumpWeb.JoinLive do
+defmodule PlumpWeb.GameLive do
   use PlumpWeb, :live_view
 
   @impl true

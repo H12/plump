@@ -19,7 +19,7 @@ defmodule PlumpWeb.Router do
 
     live "/", PlumpLive
     live "/create", CreateLive
-    live "/join", JoinLive
+    live "/game", GameLive
     live "/games", GamesLive
   end
 
