@@ -21,6 +21,12 @@ You can use `docker-compose` commands directly, but this project has a Makefile 
 - Start Phoenix endpoint with `make start`
 - Stop Phoenix endpoint with `make stop`
 
+#### Dependencies
+
+As this is a phoenix project, Elixir dependencies are managed in `mix.exs` and JavaScript dependencies in `assets/package.json`.
+
+If you find yourself updating these dependencies, be sure to update your docker images by running `make` or `make setup`.
+
 ### Natively
 
 Choose your preferred method of installation. This project's creator likes [`asdf`](https://asdf-vm.com/#/).
